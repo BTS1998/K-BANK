@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BTS K-BANK</title>
+<style>
+  :root{
+    --brand-blue:#0b57b7;
+    --brand-gold:#f0b429;
+    --bg:#eef4fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: radial-gradient(circle at 10% 10%, #f7fbff 0%, var(--bg) 35%, #e6f0fb 100%);
+    color:#0b1726;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Floating icons */
+  .scene{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+  }
+  .float{
+    position:absolute;
+    opacity:0.12;
+    filter:blur(0.4px);
+    animation:floaty linear infinite;
+  }
+  @keyframes floaty{
+    from{transform:translateY(0) rotate(0deg)}
+    to{transform:translateY(-1200px) rotate(360deg)}
+  }
+
+  /* Layout */
+  .wrap{position:relative;z-index:1;max-width:1100px;margin:36px auto;padding:20px;}
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 8px 30px rgba(12,35,70,0.08);
+    margin-bottom:18px;
+  }
+
+  /* Logo */
+  .header{display:flex;align-items:center;gap:18px;justify-content:space-between;}
+  .brand{display:flex;gap:12px;align-items:center;}
+  .logo{width:64px;height:64px;background:linear-gradient(135deg,var(--brand-blue),#0a6bd6);
+    border-radius:12px;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(11,87,183,0.18);position:relative;overflow:hidden;
+  }
+  .logo svg{transform:scale(0.9)}
+  .brand-title{font-size:20px;font-weight:700;color:var(--brand-blue)}
+  .brand-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+  /* Image carousel */
+  .carousel{position:relative;overflow:hidden;border-radius:12px;max-height:280px;margin-top:16px;}
+  .carousel img{width:100%;display:none;border-radius:12px;}
+  .carousel img.active{display:block;animation:fadeIn 1s ease;}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  /* Buttons */
+  .btn{
+    padding:12px 18px;border-radius:10px;border:none;font-weight:700;cursor:pointer;
+    box-shadow:0 6px 18px rgba(11,87,183,0.12);
+  }
+  .btn-primary{background:linear-gradient(90deg,var(--brand-blue),#1e7fe6);color:white}
+  .btn-ghost{background:transparent;border:2px solid rgba(11,87,183,0.08);color:var(--brand-blue)}
+  .glow:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(11,87,183,0.22);}
+
+  /* Sections */
+  .section{display:none;}
+  .section.active{display:block;animation:fadeIn 0.6s ease;}
+
+</style>
+</head>
+<body>
+
+<!-- Floating icons -->
+<div class="scene">
+  <svg class="float" style="left:10%;bottom:-100px;width:96px;animation-duration:36s;" viewBox="0 0 24 24">
+    <path fill="#0b57b7" d="M12 1L3 5v6c0 5 3 9 9 11 6-2 9-6 9-11V5l-9-4z"/>
+  </svg>
+  <svg class="float" style="left:40%;bottom:-120px;width:72px;animation-duration:28s;" viewBox="0 0 24 24">
+    <path fill="#f0b429" d="M12 2L2 7l10 5 10-5-10-5z"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <div class="card header">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 100 100" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="88" height="88" rx="14" fill="#0b57b7"/>
+          <path d="M30 68 L46 36 L64 68 Z" fill="#f0b429" />
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">BTS K-BANK</div>
+        <div class="brand-sub">For entertainment only</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost glow" onclick="showSection('front')">Home</button>
+  </div>
+
+  <!-- FRONT PAGE -->
+  <div id="front" class="card section active">
+    <h1>Welcome to BTS K-BANK</h1>
+    <p>Enjoy an animated banking interface experience for fun.</p>
+
+    <div class="carousel">
+      <img src="https://source.unsplash.com/1000x500/?bank" class="active">
+      <img src="https://source.unsplash.com/1000x500/?finance">
+      <img src="https://source.unsplash.com/1000x500/?money">
+      <img src="https://source.unsplash.com/1000x500/?atm">
+    </div>
+
+    <div style="margin-top:20px;">
+      <button class="btn btn-primary glow" onclick="showSection('login')">Login</button>
+      <button class="btn btn-ghost glow" onclick="showSection('signup')">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login" class="card section">
+    <h2>Login</h2>
+    <input id="login-username" placeholder="Username" class="input">
+    <input id="login-password" type="password" placeholder="Password" class="input">
+    <button class="btn btn-primary glow" onclick="attemptLogin()">Login</button>
+  </div>
+
+  <!-- SIGNUP -->
+  <div id="signup" class="card section">
+    <h2>Sign Up</h2>
+    <input placeholder="Bank account number" class="input">
+    <input placeholder="Phone number" class="input">
+    <input placeholder="Bank card number" class="input">
+    <button class="btn btn-primary glow" onclick="alert('Error: report to bank')">Send Code</button>
+  </div>
+
+  <!-- BANK MAIN INTERFACE -->
+  <div id="bank" class="card section">
+    <h2>Main Bank Interface</h2>
+    <p>Account Balance: ₩86,293,500,000</p>
+  </div>
+
+</div>
+
+<script>
+// Section switching
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Auto carousel
+let currentSlide=0;
+setInterval(()=>{
+  let slides=document.querySelectorAll('.carousel img');
+  slides[currentSlide].classList.remove('active');
+  currentSlide=(currentSlide+1)%slides.length;
+  slides[currentSlide].classList.add('active');
+},3000);
+
+// Login
+function attemptLogin(){
+  const user=document.getElementById('login-username').value.trim();
+  const pass=document.getElementById('login-password').value.trim();
+  if(user==="Jungkookbts" && pass==="Jungkook1997"){
+    showSection('bank');
+  } else {
+    alert("Invalid username or password");
+  }
+}
+</script>
+</body>
+</html>
